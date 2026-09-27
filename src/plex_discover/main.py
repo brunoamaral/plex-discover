@@ -63,25 +63,25 @@ def build_smart_playlists(plex, section):
     )
     replace_smart_playlist(
         plex, section, f"{PREFIX} - Forgotten",
-        filters={"and": [{"viewCount__gte": 1}, {"lastViewedAt__lte": "-90d"}]}, limit=30,
+        filters={"and": [{"viewCount>>": 0}, {"lastViewedAt<<": "-90d"}]}, limit=30,
     )
     replace_smart_playlist(
         plex, section, f"{PREFIX} - Buried Favorites",
-        filters={"and": [{"userRating__gte": 7}, {"viewCount__lt": 3}]}, limit=30,
+        filters={"and": [{"userRating>>": 6.9}, {"viewCount<<": 3}]}, limit=30,
     )
     replace_smart_playlist(
         plex, section, f"{PREFIX} - New Arrivals",
-        filters={"and": [{"addedAt__gte": "-60d"}, {"viewCount": 0}]}, limit=25,
+        filters={"and": [{"addedAt>>": "-60d"}, {"viewCount": 0}]}, limit=25,
     )
     for mood in MOODS:
         replace_smart_playlist(
             plex, section, f"{PREFIX} - Mood: {mood}",
-            filters={"and": [{"mood": mood}, {"lastViewedAt__lte": "-60d"}]}, limit=25,
+            filters={"and": [{"mood": mood}, {"lastViewedAt<<": "-60d"}]}, limit=25,
         )
     for style in STYLES:
         replace_smart_playlist(
             plex, section, f"{PREFIX} - Style: {style}",
-            filters={"and": [{"style": style}, {"viewCount__lt": 2}]}, limit=25,
+            filters={"and": [{"style": style}, {"viewCount<<": 2}]}, limit=25,
         )
     replace_smart_playlist(
         plex, section, f"{PREFIX} - Full Album Cold Start",
@@ -90,7 +90,7 @@ def build_smart_playlists(plex, section):
     for start, end in DECADES:
         replace_smart_playlist(
             plex, section, f"{PREFIX} - Decade: {start}s",
-            filters={"and": [{"year__gte": start}, {"year__lte": end}, {"lastViewedAt__lte": "-180d"}]},
+            filters={"and": [{"year>>": start - 1}, {"year<<": end + 1}, {"lastViewedAt<<": "-180d"}]},
             limit=30,
         )
 
