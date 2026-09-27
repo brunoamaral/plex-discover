@@ -58,7 +58,7 @@ Regular playlists (computed on each run):
 |---|---|
 | `Discover - Never Played` | Up to 50 random tracks with 0 plays. |
 | `Discover - Forgotten` | Up to 30 random tracks played at least once, but not in the last 90 days. |
-| `Discover - Buried Favorites` | Up to 30 random tracks rated 7+ (out of 10) that have been played fewer than 3 times — favorites you rated highly but rarely revisit. |
+| `Discover - Buried Favorites` | Up to 30 random tracks rated 3.5+ stars that have been played fewer than 3 times — favorites you rated highly but rarely revisit. |
 | `Discover - New Arrivals` | Up to 25 random tracks added to the library in the last 60 days that have never been played. |
 | `Discover - Mood: <mood>` | Up to 25 random tracks tagged with that mood, not played in the last 60 days. See [Customizing the lists](#customizing-the-lists). |
 | `Discover - Style: <style>` | Up to 25 random tracks tagged with that style, played fewer than 2 times. See [Customizing the lists](#customizing-the-lists). |
@@ -66,6 +66,8 @@ Regular playlists (computed on each run):
 | `Discover - Decade: <decade>s` | Up to 30 random tracks released in that decade, not played in the last 180 days. See [Customizing the lists](#customizing-the-lists). |
 | `Discover - Deep Cuts` | Up to 25 random tracks by artists you've played 50+ times total, but where the specific track itself has 1 play or fewer — the overlooked songs by artists you already love. |
 | `Discover - On This Day` | Up to 25 random tracks last played (or, if never played, added) on this calendar day ±3 days in a *previous* year — a "this day in your listening history" throwback. |
+
+> `Discover - Buried Favorites` is implemented with `"userRating>>": 6.9` in `main.py`. Plex Web only displays up to 5 stars, but the underlying `userRating` field is on a 0–10 scale (2 points per star), so `6.9` targets ratings above 3.5 stars. If you tweak the threshold in code, divide your target star rating by 2 (and subtract a small epsilon, since Plex only supports strict `>`/`<` comparisons, not `>=`/`<=`).
 
 The smart playlists (everything above `Deep Cuts`) are built with native Plex filters, so Plex keeps them live/auto-refreshing on its own between runs. `Deep Cuts` and `On This Day` are computed in Python each time the script runs and rebuilt as regular (non-smart) playlists, since their logic (aggregating per-artist play counts, comparing calendar dates across years) isn't expressible as a single Plex filter.
 
