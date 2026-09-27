@@ -1,0 +1,20 @@
+[project]
+name = "plex-discover"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Bruno Amaral", email = "mail@brunoamaral.eu" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "plexapi>=4.18.2",
+    "python-dotenv>=1.2.3",
+]
+
+[project.scripts]
+plex-discover = "plex_discover:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
