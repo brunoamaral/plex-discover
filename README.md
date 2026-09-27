@@ -34,6 +34,19 @@ uv run plex-discover
 
 Run it on a schedule (cron, launchd, etc.) to keep the playlists fresh.
 
+### Example cron entry
+
+Run it daily at 4am. Replace `/path/to/plex-discover` with the absolute path
+to this project directory:
+
+```cron
+0 4 * * * cd /path/to/plex-discover && /usr/bin/env uv run plex-discover >> /path/to/plex-discover/plex-discover.log 2>&1
+```
+
+Edit your crontab with `crontab -e`. Since cron runs with a minimal
+environment, use the full path to `uv` (find it with `which uv`) if
+`/usr/bin/env uv` doesn't resolve.
+
 ## Playlists
 
 Smart playlists (native Plex filters, auto-refresh on their own):
